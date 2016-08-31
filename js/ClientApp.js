@@ -1,15 +1,9 @@
-var div = React.DOM.div
-var h1 = React.DOM.h1
+// this is the main file beucase it doesnt have an export (webpack purporses)
+var React = require('react')
+var ReactDOM = require('react-dom')
+var MyTitle = require('./MyTitle')
 
-var MyTitle = React.createClass({
-  render () {
-    return (
-      div(null,
-        h1({style: {color: this.props.color}}, this.props.title)
-      )
-    ) 
-	}
-})
+var div = React.DOM.div
 
 var MyTitleFact = React.createFactory(MyTitle)
 var ce = React.createElement;
