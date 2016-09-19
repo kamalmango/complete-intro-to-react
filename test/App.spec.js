@@ -6,6 +6,11 @@
 // then run 
 // mocha --require test/helpers/setup.js
 // mocha -R nyan  --require test/helpers/setup.js (to see the cat)
+
+//test coverage with nyc 
+// nyc --reporter=lcov --reporter=text --reporter=html --require babel-register --extension .jsx npm test
+// cd coverage
+// open index.html to get a report
 const { expect } = require('chai')
 const React = require('react')
 const Search = require('../js/Search')
