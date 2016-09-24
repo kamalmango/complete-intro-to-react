@@ -7,6 +7,8 @@ const Layout = require('./Layout')
 const Details = require('./Details')
 const {Router, Route, IndexRoute, hashHistory} = require('react-router') // destructuring es6
 const { shows } = require('../public/data')
+const { store } = require('./Store')
+const { Provider } = require('react-redux')
 
 // const {Router, Route, hashHistory} = ReactRouter
 // OR (equivalent to)
@@ -15,6 +17,7 @@ const { shows } = require('../public/data')
 // const hashHistory = ReactRouter.hashHistory
 
 const App = React.createClass({
+  // nextState and replace will be passed in anytime you use onEnter
   assignShow (nextState, replace) {
     const showArray = shows.filter((show) => show.imdbID === nextState.params.id)
 
@@ -27,13 +30,15 @@ const App = React.createClass({
   },
   render () {
     return (
-      <Router history={hashHistory}>
-        <Route path='/' component={Layout} >
-          <IndexRoute component={Landing} />
-          <Route path='/search' component={Search} shows={shows} />
-          <Route path='/details/:id' component={Details} onEnter={this.assignShow} />
-        </Route>
-      </Router>
+      <Provider store={store}>
+        <Router history={hashHistory}>
+          <Route path='/' component={Layout} >
+            <IndexRoute component={Landing} />
+            <Route path='/search' component={Search} shows={shows} />
+            <Route path='/details/:id' component={Details} onEnter={this.assignShow} />
+          </Route>
+        </Router>
+      </Provider>
     )
   }
 })
