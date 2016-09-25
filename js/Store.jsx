@@ -1,12 +1,15 @@
 const redux = require('redux')
 const reactRedux = require('react-redux') // helper functions to make redux really easy to use with react
+const { shows } = require('../public/data')
 
 const SET_SEARCH_TERM = 'setSearchTerm' // action
 const initialState = {
-  searchTerm: ''
+  searchTerm: '',
+  shows // es6 syntax for shows: shows
 }
 
 // root reducer
+// lookup redux compose it creates the rootreducer for you
 const rootReducer = (state = initialState, action) => {
   // console.log(state, action) // for debugging
   switch (action.type) {
@@ -40,7 +43,7 @@ const store = redux.createStore(rootReducer, initialState, redux.compose(
 
 //same as
 
-const mapStateToProps = (state) => ({ searchTerm: state.searchTerm }) // pass it into react as a property called searchTerm
+const mapStateToProps = (state) => ({ searchTerm: state.searchTerm, shows: state.shows }) // pass it into react as a property called searchTerm
 // whatever component we reference it from its going to be this.props.searchTerm
 
 // we want to be able to dispatch the actions easily

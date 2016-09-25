@@ -1,12 +1,10 @@
 // this is the main file beucase it doesnt have an export (webpack purporses)
 const React = require('react')
-const ReactDOM = require('react-dom')
 const Landing = require('./Landing')
 const Search = require('./Search')
 const Layout = require('./Layout')
 const Details = require('./Details')
 const {Router, Route, IndexRoute, hashHistory} = require('react-router') // destructuring es6
-const { shows } = require('../public/data')
 const { store } = require('./Store')
 const { Provider } = require('react-redux')
 
@@ -17,25 +15,14 @@ const { Provider } = require('react-redux')
 // const hashHistory = ReactRouter.hashHistory
 
 const App = React.createClass({
-  // nextState and replace will be passed in anytime you use onEnter
-  assignShow (nextState, replace) {
-    const showArray = shows.filter((show) => show.imdbID === nextState.params.id)
-
-    if (showArray.length < 1) {
-      return replace('/')
-    }
-
-    Object.assign(nextState.params, showArray[0])
-    return nextState
-  },
   render () {
     return (
       <Provider store={store}>
         <Router history={hashHistory}>
           <Route path='/' component={Layout} >
             <IndexRoute component={Landing} />
-            <Route path='/search' component={Search} shows={shows} />
-            <Route path='/details/:id' component={Details} onEnter={this.assignShow} />
+            <Route path='/search' component={Search} />
+            <Route path='/details/:id' component={Details} />
           </Route>
         </Router>
       </Provider>
@@ -43,4 +30,4 @@ const App = React.createClass({
   }
 })
 
-ReactDOM.render(<App />, document.getElementById('app'))
+module.exports = App
