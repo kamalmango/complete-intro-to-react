@@ -28,7 +28,11 @@ const reduceSearchTerm = (state, action) => {
   return newState
 }
 
-const store = redux.createStore(rootReducer)
+// const store = redux.createStore(rootReducer) // for production code this is all you need, you wont need redux dev tools
+//to make redux devtools work:
+const store = redux.createStore(rootReducer, initialState, redux.compose(
+  typeof window === 'object' && typeof window.devToolsExtension !== 'undefined' ? window.devToolsExtension() : (f) => f
+))
 
 // const mapStateToProps = (state) => { 
 //   return { searchTerm: state.searchTerm } 
@@ -58,7 +62,7 @@ const mapDispatchToProps = (dispatch) => {
 // typically you will have many connectors becuase not all react components care about all actions or all state so you will make different connectors to different componentts
 const connector = reactRedux.connect(mapStateToProps, mapDispatchToProps)
 
-module.exports = { connector, store }
+module.exports = { connector, store, rootReducer }
 // same as
 //module.exports = { connector: connector, store: store }
 
