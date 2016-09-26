@@ -1,9 +1,27 @@
 const React = require('react')
 const Header = require('./Header')
+const axios = require('axios') // ajax library that uses promises 
 const { connector } = require('./Store')
 
 class Details extends React.Component {
-   // nextState and replace will be passed in anytime you use onEnter
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      omdbData : {}
+    }
+  }
+
+  componentDidMount () { // does not get called in node and perfect place to do ajax calls
+    axios.get(`http://www.omdbapi.com/?i=${this.assignShow(this.props.params.id).imdbID}`)
+      .then((response) => {
+        this.setState({omdbData: response.data})
+      })
+      .catch((error) => {
+        console.error('axios error', error)
+      })
+  }
+
   assignShow (id) {
     const showArray = this.props.shows.filter((show) => show.imdbID === id)
     return showArray[0]
@@ -11,13 +29,18 @@ class Details extends React.Component {
 
   render () {
     const { title, description, year, poster, trailer } = this.assignShow(this.props.params.id)
+    let rating 
+    if (this.state.omdbData.imdbRating) {
+      rating = <h3 className = 'video-rating'>{this.state.omdbData.imdbRating}</h3>
+    }
     return (
       <div className='container'>
         <Header />
         <div className='video-info'>
           <h1 className='video-title'>{title}</h1>
           <h2 className='video-year'>({year})</h2>
-          <img className='video-poster' src={`public/image/posters/${poster}`} />
+          {rating}
+          <img className='video-poster' src={`/public/image/posters/${poster}`} />
           <p className='video-descriptoin'>{description}</p>
         </div>
         <div className='video-container'>
