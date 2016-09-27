@@ -23,7 +23,7 @@ const app = express()
 app.use('/public', express.static('./public'))
 
 app.use((req, res) => {
-  match({ routes: Routes(), location: req.url }, (error, redirectLocation, renderProps) => { // uses the same matching algorithm that react router does and will run it on the server for us
+  match({ routes: Routes, location: req.url }, (error, redirectLocation, renderProps) => { // uses the same matching algorithm that react router does and will run it on the server for us
     if (error) {
       res.status(500).send(error.message)
     } else if (redirectLocation) {
